@@ -558,6 +558,8 @@ void LocalMapping::Run()
             if(!CheckNewKeyFrames())
             {
                 // Find more matches in neighbor keyframes and fuse point duplications
+                //在一定的半径范围内找出描述子距离跟3D的地图点最近的特征点id，
+                //并找到该特征点对应的MapPoint,然后比较两个MapPoint的可被观测的次数多，胜者替代对方，完成融合。
                 SearchInNeighbors();
             }
 
@@ -582,8 +584,8 @@ void LocalMapping::Run()
                 // Try to initialize VIO, if not inited
                 if(!GetVINSInited())
                 {
-                     bool tmpbool;
-		     tmpbool = TryInitVIO(); //单目的vio初始化
+                    bool tmpbool;
+		            tmpbool = TryInitVIO(); //单目的vio初始化
 
                               
                     SetVINSInited(tmpbool);
@@ -646,7 +648,7 @@ void LocalMapping::ProcessNewKeyFrame()
 {
     {
         unique_lock<mutex> lock(mMutexNewKFs);
-        mpCurrentKeyFrame = mlNewKeyFrames.front();
+        mpCurrentKeyFrame = mlNewKeyFrames.front();  //第一个元素
         mlNewKeyFrames.pop_front();
     }
 
@@ -660,11 +662,11 @@ void LocalMapping::ProcessNewKeyFrame()
         {
             if(!pMP->isBad())
             {
-                if(!pMP->IsInKeyFrame(mpCurrentKeyFrame))
+                if(!pMP->IsInKeyFrame(mpCurrentKeyFrame))  //如果在当前帧不可见
                 {
                     pMP->AddObservation(mpCurrentKeyFrame, i);
                     pMP->UpdateNormalAndDepth();
-                    pMP->ComputeDistinctiveDescriptors();
+                    pMP->ComputeDistinctiveDescriptors();  //从所有特征点中选出中值描述子
                 }
                 else // this can only happen for new stereo points inserted by the Tracking
                 {
@@ -729,8 +731,9 @@ void LocalMapping::CreateNewMapPoints()
     // Retrieve neighbor keyframes in covisibility graph
     int nn = 10;
     if(mbMonocular)
-        nn=20;
+        nn=20;    //共视图的大小
     const vector<KeyFrame*> vpNeighKFs = mpCurrentKeyFrame->GetBestCovisibilityKeyFrames(nn);  //找到前20共视的KF
+                                                                                               //即看到很多相同特征点的帧
 
     ORBmatcher matcher(0.6,false);
 
@@ -763,7 +766,7 @@ void LocalMapping::CreateNewMapPoints()
 
         // Check first that baseline is not too short
         cv::Mat Ow2 = pKF2->GetCameraCenter();
-        cv::Mat vBaseline = Ow2-Ow1;
+        cv::Mat vBaseline = Ow2-Ow1;                 //两帧之间是否基线太短
         const float baseline = cv::norm(vBaseline);
 
         if(!mbMonocular)
@@ -781,6 +784,7 @@ void LocalMapping::CreateNewMapPoints()
         }
 
         // Compute Fundamental Matrix 2到1
+        //计算两帧之间基础矩阵
         cv::Mat F12 = ComputeF12(mpCurrentKeyFrame,pKF2);
 
         // Search matches that fullfil epipolar constraint
@@ -894,7 +898,7 @@ void LocalMapping::CreateNewMapPoints()
                 float v1 = fy1*y1*invz1+cy1;
                 float errX1 = u1 - kp1.pt.x;
                 float errY1 = v1 - kp1.pt.y;
-                if((errX1*errX1+errY1*errY1)>5.991*sigmaSquare1)
+                if((errX1*errX1+errY1*errY1)>5.991*sigmaSquare1)  //重投影误差小于阈值
                     continue;
             }
             else

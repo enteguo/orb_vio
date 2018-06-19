@@ -68,6 +68,8 @@ typedef struct ImageList
     string imgName;
 } ICell;
 
+
+//读入从txt读入图像名字和时间戳
 void loadImageList(char * imagePath, std::vector<ICell> &iListData)
 {
     ifstream inf;
@@ -113,7 +115,7 @@ void loadImageList(char * imagePath, std::vector<ICell> &iListData)
     //  return 0;
 }
 
-
+//读入时间错和加速度、角速度
 void loadIMUFile(char * imuPath, std::vector<ORB_SLAM2::IMUData> &vimuData)
 {
     ifstream inf;
@@ -276,36 +278,13 @@ int main(int argc, char **argv)
         */
         for (unsigned int i = 0; i < 10; i++)
         {
-            //                cout<<"*************************************************************************"<<endl;
-            //char temp[10] = {0};
-
-            //substring(temp,imuTime,0,10);
-            //              cout<<"=========================================================================="<<endl;
             if (bAccMultiply98)
             {
                 allimuData[10 * j + i]._a(0) *= g3dm;
                 allimuData[10 * j + i]._a(1) *= g3dm;
                 allimuData[10 * j + i]._a(2) *= g3dm;
             }
-            //cout<<allimuData[j]._g(0)<<","<<allimuData[j]._g(1)<<","<<allimuData[j]._g(2)<<endl;
-            //cout<<allimuData[j]._a(0)<<","<<allimuData[j]._a(1)<<","<<allimuData[j]._a(2)<<endl;
-            //printf("imutimestamp,%0.10f\n",(double)allimuData[j]._t);
-
-
-            /*
-            *这里将时间戳×上e-9后的结果，程序可以正常运行，但是显示出来的时间和ros环境下的时间不同，且运行速度缓慢。
-            ORB_SLAM2::IMUData imudata(allimuData[j]._g(0),allimuData[j]._g(1),allimuData[j]._g(2),
-                                    allimuData[j]._a(0),allimuData[j]._a(1),allimuData[j]._a(2),(double)allimuData[j]._t);
-            */
-            //时间戳按这个给程序也可以正常运行，速度基本和ros环境下一样，问题在于当按照正常的0.005设置时候程序会挂，后来尝试后发现这个数据给的越小程序越容易运行成功。
-            //ERR    这里后面的时间戳应该时j*0.05+i*0.005,而且这里应该把十帧imu数据包含到vimuData中去，即allimuData[j+i]
-
-            //ORB_SLAM2::IMUData imudata(allimuData[j]._g(0),allimuData[j]._g(1),allimuData[j]._g(2),
-            //              allimuData[j]._a(0),allimuData[j]._a(1),allimuData[j]._a(2),j*0.0005+i*0.00005);//j*0.0005+i*0.00005
-
-            //ORB_SLAM2::IMUData imudata(allimuData[10*j+i]._g(0),allimuData[10*j+i]._g(1),allimuData[10*j+i]._g(2),
-            //       allimuData[10*j+i]._a(0),allimuData[10*j+i]._a(1),allimuData[10*j+i]._a(2),j*0.05+i*0.005);//j*0.0005+i*0.00005
-
+ 
             ORB_SLAM2::IMUData imudata(allimuData[10 * j + i]._g(0), allimuData[10 * j + i]._g(1), allimuData[10 * j + i]._g(2),
                                        allimuData[10 * j + i]._a(0), allimuData[10 * j + i]._a(1), allimuData[10 * j + i]._a(2), allimuData[10 * j + i]._t); //j*0.0005+i*0.00005
             vimuData.push_back(imudata);
@@ -330,16 +309,8 @@ int main(int argc, char **argv)
 
 
         chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
-        //SLAM.TrackMonoVI(im, vimuData, j*0.00005);
-        //FIX:if imageMsgDelaySec>0,it will be wrong
 
-        //cout<<std::setprecision(13)<<"img time: "<<iListData[j+1].timeStamp <<" fist vimu begin() time: "<<(*vimuData.begin())._t <<endl;
-
-
-        //SLAM.TrackMonoVI(im, vimuData, j*0.05- imageMsgDelaySec);
-
-       // cout<< std::setprecision(13) <<"Now is Tracking Img at time: "<< iListData[j + 1].timeStamp<<endl;
-	//跟踪入口
+	    //跟踪入口
         SLAM.TrackMonoVI(im, vimuData, iListData[j + 1].timeStamp - imageMsgDelaySec);
 
         chrono::steady_clock::time_point t2 = chrono::steady_clock::now();

@@ -246,6 +246,7 @@ float MapPoint::GetFoundRatio()
     return static_cast<float>(mnFound)/mnVisible;
 }
 
+//寻找一个富有特色的描述子
 void MapPoint::ComputeDistinctiveDescriptors()
 {
     // Retrieve all observed descriptors
@@ -336,6 +337,7 @@ bool MapPoint::IsInKeyFrame(KeyFrame *pKF)
     unique_lock<mutex> lock(mMutexFeatures);
     return (mObservations.count(pKF));
 }
+
 
 void MapPoint::UpdateNormalAndDepth()
 {
