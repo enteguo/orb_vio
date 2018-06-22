@@ -32,6 +32,7 @@ find_package(OpenCV 3 REQUIRED)
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
 find_package(Cholmod REQUIRED)
+find_package(G2O REQUIRED)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
@@ -40,6 +41,7 @@ ${PROJECT_SOURCE_DIR}/src
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
 ${CHOLMOD_INCLUDE_DIR}
+${G2O_INCLUDE_DIRS}
 )
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -88,7 +90,7 @@ target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
 ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
-${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+g2o_core g2o_stuff g2o_solvers g2o_types
 cholmod
 ${CHOLMOD_LIBRARIES}
 ${BLAS_LIBRARIES}
