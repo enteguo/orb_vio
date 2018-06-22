@@ -292,9 +292,14 @@ int main(int argc, char **argv)
 
         //cout<<"IMU FINISHED READING"<<endl;
         //发现读取txt时，图像文件名后多了一个‘/r’，因此需要截掉这个字符。
+		//但是有些没有
         //NOTE 数据集中imu和img的第一帧的时间戳相同，但是SLAM.TrackMonoVI中却要求img大概要和vimudata的最后一帧对齐，所以这里取了iListData[j+1]
-        string temp = iListData[j + 1].imgName.substr(0, iListData[j].imgName.size() - 1);
-        //sprintf(fullPath,"%s/%s","/home/fyj/Code/C++/LearnVIORB/Examples/ROS/ORB_VIO/v2_03_diff/V2_03_difficult/mav0/cam0/data",temp.c_str());
+        string temp;
+	    if(iListData[j + 1].imgName.find('\r')!=string::npos )
+			temp = iListData[j + 1].imgName.substr(0, iListData[j].imgName.size() - 1);
+	    else
+			temp = iListData[j + 1].imgName;
+  
         sprintf(fullPath, "%s/%s", argv[4], temp.c_str());
         cv::Mat im = cv::imread(fullPath, 0);
         // cout<<fullPath<<endl;

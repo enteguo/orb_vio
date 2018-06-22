@@ -1,0 +1,1 @@
+./build/orb_vio_test /home/ente/my_code/orb_vio/config/kitti.yaml /home/ente/dataset/KITTI/raw_data/2011_09_30_drive_0016_extract/imu/imu_data.txt /home/ente/dataset/KITTI/raw_data/2011_09_30_drive_0016_extract/cam0/img_data.txt /home/ente/dataset/KITTI/raw_data/2011_09_30_drive_0016_extract/cam0/data 2011_09_30_drive_0016_extract

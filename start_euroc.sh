@@ -1,0 +1,1 @@
+./build/orb_vio_test /home/ente/my_code/orb_vio/config/euroc.yaml /home/ente/dataset/EUROC/mav0/imu0/data.csv /home/ente/dataset/EUROC/mav0/cam0/data.csv /home/ente/dataset/EUROC/mav0/cam0/data MH_05_difficult

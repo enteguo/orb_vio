@@ -1,5 +1,10 @@
 %YAML:1.0
 
+# 1: realtime, 0: non-realtime
+test.RealTime: 1
+# Time for visual-inertial initialization
+test.VINSInitTime: 15.0
+
 # Modify test.InitVIOTmpPath and bagfile to the correct path
 # Path to save tmp files/results
 test.InitVIOTmpPath: "/home/ente/my_code/orb_vio/tmp/"
@@ -17,8 +22,8 @@ test.DiscardTime: 0
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_04_difficult.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_05_difficult.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_02_easy.bag"
-#bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_01_easy.bag"
-bagfile: "/home/ente/dataset/EUROC/MH_04_difficult.bag"
+bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_01_easy.bag"
+#bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V2_02_medium.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V2_01_easy.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V1_02_medium.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V1_01_easy.bag"
@@ -29,8 +34,8 @@ bagfile: "/home/ente/dataset/EUROC/MH_04_difficult.bag"
 
 #######################################
 
-imutopic: "/imu0"
-imagetopic: "/cam0/image_raw"
+imutopic: "/imu"
+imagetopic: "/left/image_raw_color"
 
 
 # Timestamp shift. Timage = Timu + image_delay
@@ -41,34 +46,34 @@ IMU.multiplyG: 0
 
 # camera-imu frame transformation, Pi = Tic * Pc
 Camera.Tbc:
- [0.0148655429818, -0.999880929698, 0.00414029679422, -0.0216401454975,
-  0.999557249008, 0.0149672133247, 0.025715529948, -0.064676986768,
-  -0.0257744366974, 0.00375618835797, 0.999660727178, 0.00981073058949,
+ [0.00693207, -0.99997503, -0.00137644,  0.00811259,
+  0.99994677,  0.00694238, -0.00763351, -0.02330216,
+  0.00764287, -0.00132345,  0.99996992,  0.0889439,
   0.0, 0.0, 0.0, 1.0]
 
 # Local Window size
-LocalMapping.LocalWindowSize: 10
+LocalMapping.LocalWindowSize: 20
 
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------
 
 # Camera calibration and distortion parameters (OpenCV) 
-Camera.fx: 458.654
-Camera.fy: 457.296
-Camera.cx: 367.215
-Camera.cy: 248.375
+Camera.fx: 682.3460105593656
+Camera.fy: 680.1935871064773
+Camera.cx: 383.64609500602
+Camera.cy: 215.4217589217795   
 
-Camera.k1: -0.28340811
-Camera.k2: 0.07395907
-Camera.p1: 0.00019359
-Camera.p2: 0.00001762 
+Camera.k1: -0.44142005538164214
+Camera.k2: 0.1780233078032377
+Camera.p1: 0.0014916197308042743
+Camera.p2: 4.8565051225211274e-05
 
 Camera.width: 752
 Camera.height: 480
 
 # Camera frames per second 
-Camera.fps: 20.0
+Camera.fps: 25.0
 
 # IR projector baseline times fx (aprox.)
 Camera.bf: 40.0

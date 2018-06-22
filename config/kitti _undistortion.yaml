@@ -18,7 +18,7 @@ test.DiscardTime: 0
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_05_difficult.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_02_easy.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/MH_01_easy.bag"
-bagfile: "/home/ente/dataset/EUROC/MH_04_difficult.bag"
+#bagfile: "/home/ente/dataset/EUROC/MH_04_difficult.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V2_01_easy.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V1_02_medium.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V1_01_easy.bag"
@@ -41,9 +41,9 @@ IMU.multiplyG: 0
 
 # camera-imu frame transformation, Pi = Tic * Pc
 Camera.Tbc:
- [0.0148655429818, -0.999880929698, 0.00414029679422, -0.0216401454975,
-  0.999557249008, 0.0149672133247, 0.025715529948, -0.064676986768,
-  -0.0257744366974, 0.00375618835797, 0.999660727178, 0.00981073058949,
+ [0.007813, -0.004279, 0.99996, 1.143899,
+  -0.99986, -0.014868, 0.00774856, -0.31272,
+  0.014834, -0.99988, -0.00439476,0.726546,
   0.0, 0.0, 0.0, 1.0]
 
 # Local Window size
@@ -54,21 +54,21 @@ LocalMapping.LocalWindowSize: 10
 #--------------------------------------------------------------------------------------------
 
 # Camera calibration and distortion parameters (OpenCV) 
-Camera.fx: 458.654
-Camera.fy: 457.296
-Camera.cx: 367.215
-Camera.cy: 248.375
+Camera.fx: 979.92
+Camera.fy: 974.1183
+Camera.cx: 690.0
+Camera.cy: 248.6443
 
-Camera.k1: -0.28340811
-Camera.k2: 0.07395907
-Camera.p1: 0.00019359
-Camera.p2: 0.00001762 
+Camera.k1: -0.3745594
+Camera.k2: 0.2049385
+Camera.p1: 1.110145e-3
+Camera.p2: 1.379375e-3
 
-Camera.width: 752
-Camera.height: 480
+Camera.width: 1241
+Camera.height: 376
 
 # Camera frames per second 
-Camera.fps: 20.0
+Camera.fps: 10.0
 
 # IR projector baseline times fx (aprox.)
 Camera.bf: 40.0
