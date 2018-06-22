@@ -1,0 +1,3 @@
+/home/ente/code_test/LearnVIORBnorosgai2/Thirdparty/g2o/build/CMakeFiles/edit_cache.dir
+/home/ente/code_test/LearnVIORBnorosgai2/Thirdparty/g2o/build/CMakeFiles/rebuild_cache.dir
+/home/ente/code_test/LearnVIORBnorosgai2/Thirdparty/g2o/build/CMakeFiles/g2o.dir
