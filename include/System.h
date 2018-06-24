@@ -40,7 +40,7 @@ using namespace std;
 namespace ORB_SLAM2
 {
 
-class Viewer;
+class Viewer;           
 class FrameDrawer;
 class Map;
 class Tracking;
@@ -78,16 +78,20 @@ public:
     cv::Mat TrackMonoVI(const cv::Mat &im, const std::vector<IMUData> &vimu, const double &timestamp);
 
     // This stops local mapping thread (map building) and performs only camera tracking.
+    //暂停局部地图
     void ActivateLocalizationMode();
     // This resumes local mapping thread and performs SLAM again.
+    //开启局部建图
     void DeactivateLocalizationMode();
 
     // Reset the system (clear map)
+    //清除地图
     void Reset();
 
     // All threads will be requested to finish.
     // It waits until all threads have finished.
     // This function must be called before saving the trajectory.
+    //结束，关闭全部线程
     void Shutdown();
 
     // Save camera trajectory in the TUM RGB-D dataset format.
@@ -141,6 +145,7 @@ private:
 
     // System threads: Local Mapping, Loop Closing, Viewer.
     // The Tracking thread "lives" in the main execution thread that creates the System object.
+    //tracking线程在main函数里
     std::thread* mptLocalMapping;
     std::thread* mptViewer;
 
