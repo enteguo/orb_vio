@@ -712,15 +712,32 @@ void Tracking::Track()
                 // If Visual-Inertial is initialized
                 if (mpLocalMapper->GetVINSInited())  //如果VIO初始化成功
                 {
+                       if (mbRelocBiasPrepare)//mbRelocBiasPrepare代表正在准备用于估计偏差的连续20帧
+                    {
+                        bOK = TrackReferenceKeyFrame();
+                    }
+                    else
+                    {
                         bOK = TrackWithIMU(bMapUpdated);//替换了原来的 TrackWithMotionModel();
                         if (!bOK)
-                             bOK = TrackReferenceKeyFrame();
+                            bOK = TrackReferenceKeyFrame();
+
+                    }
                 }
                 // If Visual-Inertial not initialized, keep the same as pure-vslam
                 else
 #endif
                 {
+                    if (mVelocity.empty() )
+                    {
                         bOK = TrackReferenceKeyFrame();
+                    }
+                    else
+                    {
+                        bOK = TrackWithMotionModel();
+                        if (!bOK)
+                            bOK = TrackReferenceKeyFrame();
+                    }
                 }
             }
 
